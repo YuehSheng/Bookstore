@@ -24,13 +24,28 @@
             echo '</script>';
         }
     }
-    
+?>
+<?php
+    // 建立MySQL的資料庫連接 
+    $dsn = "mysql:dbname=bookstore;host=220.132.211.121;port=3306";
+    $username = "ZYS";
+    $pass = "qwe12345";
+    try {
+        // 建立MySQL伺服器連接和開啟資料庫 
+        $link = new PDO($dsn, $username, $pass);
+        // 指定PDO錯誤模式和錯誤處理
+        $link->setAttribute(PDO::ATTR_ERRMODE, 
+                PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        echo "連接失敗: " . $e->getMessage();
+    }
+
 ?>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div id="header" class="text-center">
-        <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+        <a class="col-6" href=".\index.php" style="color: rgb(203, 212, 209); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -65,19 +80,32 @@
     </nav>
     <br><br>
     <h4 align="center" style=font-weight:bold;>推薦</h4>
-    <p align="center">
-    <?php
-        $numbers = range (1,20);
-        //shuffle 將陣列順序隨即打亂
-        shuffle ($numbers);
-        //array_slice 取該陣列中的某一段
-        $num=6;
-         $result = array_slice($numbers,0,$num);
-        for ($i=0; $i < 5; $i++) { 
-            $pid = $result[$i];
-            echo '<br><a href=".\product.php?pid='.$pid.'"><img align="center" src="../product_img/'.$pid.'.jpg" width = "255" height = "300"></a>';
-        }
-    ?>
-    </p>
+    <div align="center" class="container bg-dark text-white">
+        <?php
+            $numbers = range (1,20);
+            //shuffle 將陣列順序隨即打亂
+            shuffle ($numbers);
+            //array_slice 取該陣列中的某一段
+            $num=11;
+            $product = array_slice($numbers,0,$num);
+            for ($i=0; $i < 10; $i++) { 
+                $pid = $product[$i];
+                $sql = "SELECT * FROM product WHERE ID = $pid";
+                $link->query('SET NAMES utf8');
+                // 送出查詢的SQL指令
+                if ( $result = $link->query($sql) ) { 
+                // 取得記錄數
+                    $total_records = $result->rowCount();
+                    $row = $result->fetch(PDO::FETCH_ASSOC);
+                    echo "<div class='col-sm-4'>";
+                    echo "<br>".$row['Name']."<br>";
+                    echo "<div  class='card'>";
+                    echo '<br><a href=".\product.php?pid='.$pid.'"><img  align="center" src="../product_img/'.$pid.'.jpg" width = "255" height = "300"></a>';
+                    echo "</div>";
+                    echo "</div>";
+                }
+            }
+        ?>
+    </div>
 </body>
 </html>

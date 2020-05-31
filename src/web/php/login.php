@@ -18,7 +18,7 @@ if ( isset($_POST["password"]) )
    $password = $_POST["password"];
 // 檢查是否輸入使用者名稱和密碼
 if ($Email != "" && $password != "") {
-   // 建立MySQL的資料庫連接 
+    // 建立MySQL的資料庫連接 
     $dsn = "mysql:dbname=bookstore;host=220.132.211.121;port=3306";
     $username = "ZYS";
     $pass = "qwe12345";
@@ -37,7 +37,6 @@ if ($Email != "" && $password != "") {
         // echo "<br/><b>帳戶資料:</b><hr/>";  // 顯示查詢結果
         // // 取得記錄數
         $total_records = $result->rowCount();
-        echo "資料筆數: $total_records 筆<br/>"; 
         if($row = $result->fetch(PDO::FETCH_ASSOC)){
             //成功登入, 指定Session變數
             echo '<script language="javascript">';
@@ -85,7 +84,7 @@ if ($Email != "" && $password != "") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <div id="header" class="text-center">
-        <a class="col-6" href=".\index.php" style="color: rgb(199, 255, 125); font-size: 1.2cm; font-weight: 500;">書福</a>
+        <a class="col-6" href=".\index.php" style="color: rgb(203, 212, 209); font-size: 1.2cm; font-weight: 500;">書福</a>
     </div>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
